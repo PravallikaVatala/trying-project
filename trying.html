@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday! 🎂✨ Make a Joyful Wish</title>
+    <meta name="description"
+        content="A joyful and loving birthday wishing experience with interactive cake, festive music, confetti, and personalized heartwarming messages.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Floating Ambient Canvas for Confetti & Sparkles -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Background Decorative Elements -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <div class="floating-balloons-container" id="balloons-container"></div>
+
+    <!-- Audio Controls Bar -->
+    <header class="top-nav">
+        <div class="brand-tag">
+            <span class="sparkle-icon">✨</span>
+            <span>Birthday Magic</span>
+        </div>
+        <button id="music-toggle-btn" class="music-btn" title="Toggle Birthday Melody">
+            <span class="music-icon" id="music-icon">🎵</span>
+            <span class="music-text" id="music-text">Play Melody</span>
+        </button>
+    </header>
+
+    <main class="app-container">
+
+        <!-- STEP 1: Input Card (Create Wish) -->
+        <section class="card-wrapper" id="input-section">
+            <div class="glass-card main-card">
+                <div class="card-header">
+                    <div class="icon-badge">🎂</div>
+                    <h1 class="title">Create a Birthday Wish</h1>
+                    <p class="subtitle">Enter the name of the special person to celebrate their joyful day!</p>
+                </div>
+
+                <form id="wish-form" class="wish-form" onsubmit="event.preventDefault();">
+                    <div class="form-group">
+                        <label for="recipient-name">Who is the birthday star? <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">👤</span>
+                            <input type="text" id="recipient-name" placeholder="e.g. Emma, Alex, Mom..."
+                                autocomplete="off" maxlength="40" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sender-name">Your Name <span class="optional">(optional)</span></label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">💌</span>
+                            <input type="text" id="sender-name" placeholder="e.g. Your Bestie, Chris..."
+                                autocomplete="off" maxlength="40" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="vibe-select">Choose the Wish Vibe</label>
+                        <div class="vibe-pills" id="vibe-pills">
+                            <button type="button" class="vibe-pill active" data-vibe="sweet">💖 Loving & Warm</button>
+                            <button type="button" class="vibe-pill" data-vibe="joyful">🎉 High Energy & Fun</button>
+                            <button type="button" class="vibe-pill" data-vibe="inspirational">🌟 Bright &
+                                Inspiring</button>
+                            <button type="button" class="vibe-pill" data-vibe="short">✨ Sweet & Short</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="generate-btn" class="primary-btn">
+                        <span class="btn-text">Reveal Birthday Magic</span>
+                        <span class="btn-icon">✨</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- STEP 2: Wish Reveal Section (Hidden initially) -->
+        <section class="card-wrapper hidden" id="wish-section">
+            <div class="glass-card celebration-card" id="celebration-card">
+
+                <div class="banner-tag">🎉 TODAY IS SPECIAL 🎉</div>
+
+                <h1 class="celebration-title" id="celebration-title">
+                    Happy Birthday, <span class="name-highlight" id="display-name">Friend</span>!
+                </h1>
+
+                <!-- Interactive Birthday Cake -->
+                <div class="cake-area">
+                    <div class="cake-wrapper" id="cake-interactive" title="Click to blow out the candle!">
+                        <div class="candle" id="candle">
+                            <div class="flame" id="flame"></div>
+                        </div>
+                        <div class="cake-tier cake-top">
+                            <div class="icing"></div>
+                            <div class="drips"></div>
+                        </div>
+                        <div class="cake-tier cake-bottom">
+                            <div class="icing"></div>
+                            <div class="cherries">
+                                <span>🍒</span><span>🍒</span><span>🍒</span>
+                            </div>
+                        </div>
+                        <div class="cake-plate"></div>
+                    </div>
+                    <p class="cake-instruction" id="cake-instruction">🕯️ Tap the candle to make a wish & blow it out!
+                    </p>
+                </div>
+
+                <!-- Heartfelt Message Box -->
+                <div class="message-container">
+                    <div class="quote-mark">“</div>
+                    <p class="message-text" id="display-message">
+                        May your day be filled with warm smiles, joyful laughter, and boundless happiness. You bring so
+                        much light and kindness into this world!
+                    </p>
+                    <div class="sender-signature" id="display-signature">
+                        With all my love & warmest wishes ❤️
+                    </div>
+                </div>
+
+                <!-- Interactive Surprises Accordion / Buttons -->
+                <div class="action-dock">
+                    <button id="surprise-gift-btn" class="dock-btn gift-btn" title="Open birthday gift box">
+                        <span>🎁</span>
+                        <span>Open Surprise Gift</span>
+                    </button>
+
+                    <button id="confetti-boost-btn" class="dock-btn boost-btn" title="Blast more confetti!">
+                        <span>🎊</span>
+                        <span>Shower Confetti</span>
+                    </button>
+
+                    <button id="share-link-btn" class="dock-btn share-btn" title="Copy shareable link for them">
+                        <span id="share-icon">🔗</span>
+                        <span id="share-btn-text">Share Wish Link</span>
+                    </button>
+                </div>
+
+                <!-- Surprise Gift Box Modal Content -->
+                <div class="gift-reveal-box hidden" id="gift-reveal-box">
+                    <div class="gift-content">
+                        <span class="gift-star">⭐</span>
+                        <h3 id="gift-headline">A Secret Birthday Blessing for You</h3>
+                        <p id="gift-message">May this coming year unlock incredible new adventures, cherished memories,
+                            great health, and all the dreams your heart holds dear!</p>
+                    </div>
+                </div>
+
+                <!-- Back Button -->
+                <div class="card-footer">
+                    <button id="reset-btn" class="secondary-btn">
+                        <span>↺</span>
+                        <span>Wish Another Person</span>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">Link copied to clipboard! 📋✨</div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+
+</html>
